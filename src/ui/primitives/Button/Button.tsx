@@ -1,32 +1,21 @@
-import React from 'react';
+import figma from '@figma/code-connect/react'
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'primary' | 'secondary' | 'tertiary' | 'text';
-    children: React.ReactNode;
-}
-
-const baseStyles =
-    'px-4 py-2 rounded focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
-
-const variantStyles = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700',
-    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
-    tertiary: 'bg-green-600 text-white hover:bg-green-700',
-    text: 'text-blue-600 hover:underline',
-};
-
-export const Button: React.FC<ButtonProps> = ({
-    variant = 'primary',
-    children,
-    className = '',
-    ...props
-}) => {
+figma.connect(Button, 'https://...', {
+  props: {
+    label: figma.string('Text Content'),
+    disabled: figma.boolean('Disabled'),
+    type: figma.enum('Type', {
+      Primary: 'primary',
+      Secondary: 'secondary',
+      Tertiary: 'tertiary',
+      Text: 'text'
+    }),
+  },
+  example: ({ disabled, label, type }) => {
     return (
-        <button
-            className={`${baseStyles} ${variantStyles[variant]} ${className}`}
-            {...props}
-        >
-            {children}
-        </button>
-    );
-};
+      <Button disabled={disabled} type={type}>
+        {label}
+      </Button>
+    )
+  },
+})
